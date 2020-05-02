@@ -1,0 +1,6 @@
+ext/Makefile
+ext/extconf.h
+ext/mkmf.log
+ext/ytc.o
+ext/ytc.so
+tmp/
