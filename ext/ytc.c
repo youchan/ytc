@@ -5,13 +5,17 @@
 VALUE rb_compile(VALUE self, VALUE value)
 {
   char* code = RSTRING_PTR(value);
-  printf(".intel_syntax noprefix\n");
-  printf(".global main\n");
-  printf("main:\n");
-  printf("  mov rax, %d\n", atoi(code));
-  printf("  ret\n");
+  VALUE return_val;
+  return_val = rb_sprintf(
+    ".intel_syntax noprefix\n"
+    ".global main\n"
+    "main:\n"
+    "  mov rax, %d\n"
+    "  ret\n",
+    atoi(code)
+  );
 
-  return Qnil;
+  return return_val;
 }
 
 void Init_ytc()
