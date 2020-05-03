@@ -4,18 +4,13 @@
 
 VALUE rb_compile(VALUE self, VALUE value)
 {
-  char* code = RSTRING_PTR(value);
-  VALUE return_val;
-  return_val = rb_sprintf(
-    ".intel_syntax noprefix\n"
-    ".global main\n"
-    "main:\n"
-    "  mov rax, %d\n"
-    "  ret\n",
-    atoi(code)
-  );
+  rb_yield(rb_str_new_cstr(".intel_syntax noprefix\n"));
+  rb_yield(rb_str_new_cstr(".global main\n"));
+  rb_yield(rb_str_new_cstr("main:\n"));
+  rb_yield(rb_sprintf("  mov rax, %"PRIsVALUE"\n", value));
+  rb_yield(rb_str_new_cstr("  ret\n"));
 
-  return return_val;
+  return Qnil;
 }
 
 void Init_ytc()

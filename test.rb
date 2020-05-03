@@ -3,10 +3,13 @@ require "ytc"
 include Ytc
 
 def assert(expected, input)
-  asm = compile(input)
-  File.write("tmp.s", asm)
-  system("cc -o tmp tmp.s")
-  system("./tmp")
+  File.open("tmp/tmp.s", "w") do |tmp|
+    compile(input) do |str|
+      tmp << str
+    end
+  end
+  system("cc -o tmp/tmp tmp/tmp.s")
+  system("./tmp/tmp")
   actual = $?.exitstatus
 
   if actual == expected
