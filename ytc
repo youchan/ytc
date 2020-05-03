@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << __dir__
+
+require 'ytc'
+
+include Ytc
+compile(ARGV[0]) do |str|
+  puts str
+end
