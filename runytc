@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path(".", __dir__)
+require "ytc"
+
+include Ytc
+
+begin
+  File.open("tmp/tmp.s", "w") do |tmp|
+    compile(ARGV[0]) do |str|
+      tmp << str
+    end
+  end
+rescue => e
+  puts e.message
+  File.delete("tmp/tmp.s")
+  return
+end
+
+system("cc -o tmp/tmp tmp/tmp.s")
+system("./tmp/tmp")
+puts $?.exitstatus
